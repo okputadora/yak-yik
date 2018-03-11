@@ -6,9 +6,7 @@
   </head>
   <body>
     <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
-    <form action='comment' type="POST">
-      <input type='text' />
-    </form>
+    <div id='root'></div>
+    <script type="text/javascript" src="/build/bundle.js"></script>
   </body>
 </html>

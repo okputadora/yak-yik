@@ -44,20 +44,22 @@ class Zones extends Component{
 
   submitZone(){
     let newZone = Object.assign({}, this.state.zone)
-    superagent
-    .post('/api/zone')
-    .send(newZone)
-    .end((err, response) => {
+    // need to process this a bit so it matches the mongoose schema
+    newZone['zipCodes'] = newZone.zipCode.split(',')
+    let updatedList = Object.assign([], this.state.list)
+
+    APImanager.post('api/zone', newZone, (err, response) => {
       if (err){
-        alert("ERROR "+err)
+        alert('ERROR '+err)
         return
       }
-      let updatedList = Object.assign([], this.state.list)
+      console.log("ZONE CREATEDS")
       updatedList.push(newZone)
       this.setState({
         list: updatedList
       })
     })
+
   }
   render(){
     const universal = styles.universal

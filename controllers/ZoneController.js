@@ -25,13 +25,16 @@ module.exports = {
     // split them into an array
     // eventually we'll need to cover all of the input errors
     // a user might make
-    var zips = params['zipCodes']
-    var zip = zips.split(',')
-    var newZips = []
-    zip.forEach(function(zipCode){
-      newZips.push(zipCode.trim())
-    })
-    params['zipCodes'] = newZips
+    // var zips = params['zipCodes']
+    // var zip = zips.split(',')
+    // var newZips = []
+    // zip.forEach(function(zipCode){
+    //   newZips.push(zipCode.trim())
+    // })
+    // params['zipCodes'] = newZips
+
+    // ^^^ we've commented this out now because originally we weren't getting
+    // an array from the user...but after implementing react we ARE getting an array
     Zone.create(params, function(err, zone){
       if (err){
         callback(err, null)

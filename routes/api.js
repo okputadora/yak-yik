@@ -57,10 +57,12 @@ router.get('/:resource/:id', function(req, res, next){
 router.post('/:resource', function(req, res, next){
   var resource = req.params.resource
   var params = req.body
+  console.log("PARAMS "+JSON.stringify(params))
+  console.log(resource)
   var controller = controllers[resource]
   if (controller == null){
     res.json({
-      confirmation: 'fail',
+      confirmation: 'error',
       error: 'invalid resource'
     })
     return

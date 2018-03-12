@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Zone from '../presentation/Zone'
+import styles from './styles'
+import { APImanager } from '../../utils'
 class Zones extends Component{
   constructor(){
     super()
@@ -9,14 +11,29 @@ class Zones extends Component{
         zipCode: '',
         comments: ''
       },
-      list: [
-        {name: 'Zone 1', zipCode: '10012', comments:10},
-        {name: 'Zone 2', zipCode: '10013', comments:20},
-        {name: 'Zone 3', zipCode: '10014', comments:30},
-        {name: 'Zone 4', zipCode: '10015', comments:40}
-      ]
+      list: []
     }
   }
+
+  componentDidMount(){
+    APImanager.get('/api/zone', null, (err, response) => {
+      if (err){
+        alert("ERROR "+err)
+        return
+      }
+      let results = response.results
+      let updatedList = Object.assign([], this.state.list)
+      results.forEach((zone) => {
+        updatedList.push(zone)
+      })
+      this.setState({
+        list: updatedList
+      })
+    })
+
+
+  }
+
   updateZone(event){
     let updatedZone = Object.assign({}, this.state.zone)
     updatedZone[event.target.id] = event.target.value
@@ -26,27 +43,40 @@ class Zones extends Component{
   }
 
   submitZone(){
-    let updatedList = Object.assign([], this.state.list)
-    let newZone = Object.assign([], this.state.zone)
-    updatedList.push(newZone)
-    this.setState({
-      list: updatedList
+    let newZone = Object.assign({}, this.state.zone)
+    superagent
+    .post('/api/zone')
+    .send(newZone)
+    .end((err, response) => {
+      if (err){
+        alert("ERROR "+err)
+        return
+      }
+      let updatedList = Object.assign([], this.state.list)
+      updatedList.push(newZone)
+      this.setState({
+        list: updatedList
+      })
     })
   }
   render(){
-
+    const universal = styles.universal
     const listItems = this.state.list.map((zone, i) => {
       return (<Zone id={i} currentZone={zone}/>)
     })
     return(
       <div>
+        <h2>Zones</h2>
         <ol>
           {listItems}
         </ol>
-        <input id='name' type='text' onChange={this.updateZone.bind(this)} placeholder='name' className='form-control' name='name'/>
-        <input id='zipCode' type='text' onChange={this.updateZone.bind(this)} placeholder='zip codes' className='form-control' name='zipCode'/>
-        <input id='numComments' type='text' onChange={this.updateZone.bind(this)} placeholder='comments' className='form-control' name='numComments'/>
-        <button onClick={this.submitZone.bind(this)} className='btn btn-info'>Submit Zone</button>
+        <input id='name' type='text' onChange={this.updateZone.bind(this)} placeholder='name'
+          style = {universal.marginTop} className='form-control' name='name'/>
+        <input id='zipCode' type='text' onChange={this.updateZone.bind(this)} placeholder='zip codes'
+          style = {universal.marginTop} className='form-control' name='zipCode'/>
+        <input id='numComments' type='text' onChange={this.updateZone.bind(this)} placeholder='comments'
+          style = {universal.marginTop} className='form-control' name='numComments'/>
+        <button onClick={this.submitZone.bind(this)} style={universal.marginTop} className='btn btn-danger'>Submit Zone</button>
           </div>
           )
           }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Comment from '../presentation/Comment'
 import styles from './styles'
+import { APImanager } from '../../utils'
 class Comments extends Component{
   constructor(){
     super()
@@ -10,13 +11,27 @@ class Comments extends Component{
         body: '',
         timestamp: '',
       },
-      list: [
-        {body: 'Comment 1', username: 'user1', timestamp: '10:00AM'},
-        {body: 'Comment 2', username: 'user2', timestamp: '10:00AM'},
-        {body: 'Comment 3', username: 'user3', timestamp: '10:00AM'},
-        {body: 'Comment 4', username: 'user4', timestamp: '10:00AM'}
-      ],
+      list: []
     }
+  }
+
+  componentDidMount(){
+    APImanager.get('/api/comment', null, (err, response) => {
+      if (err){
+        alert("ERROR "+err)
+        return
+      }
+      let results = response.results
+      let updatedList = Object.assign([], this.state.list)
+      results.forEach((comment) => {
+        updatedList.push(comment)
+      })
+      this.setState({
+        list: updatedList
+      })
+    })
+
+
   }
 
   submitComment(){
@@ -74,7 +89,7 @@ class Comments extends Component{
         <input style={universal.marginTop} onChange={this.updateTimestamp.bind(this)}
         className="form-control" type="text" name="timestamp" placeholder="timeStamp"/>
         <button style={universal.marginTop} onClick={this.submitComment.bind(this)}
-        className="btn btn-info">Submit</button>
+        className="btn btn-info">Submit Comment</button>
       </div>
     )
   }

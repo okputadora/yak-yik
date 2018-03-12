@@ -9,7 +9,6 @@ class Comments extends Component{
       comment: {
         username: '',
         body: '',
-        timestamp: '',
       },
       list: []
     }
@@ -69,15 +68,6 @@ class Comments extends Component{
       comment: updatedComment
     })
   }
-
-  updateTimestamp(event){
-    let updatedComment = Object.assign({}, this.state.comment)
-    updatedComment['timestamp'] = event.target.value
-    this.setState({
-      comment: updatedComment
-    })
-  }
-
   render(){
     const universal = styles.universal
     const listItems = this.state.list.map((comment, i) => {
@@ -93,8 +83,6 @@ class Comments extends Component{
         className="form-control" type="text" name="comment" placeholder="comment"/>
         <input style={universal.marginTop} onChange={this.updateUsername.bind(this)}
         className="form-control" type="text" name="username" placeholder="username"/>
-        <input style={universal.marginTop} onChange={this.updateTimestamp.bind(this)}
-        className="form-control" type="text" name="timestamp" placeholder="timeStamp"/>
         <button style={universal.marginTop} onClick={this.submitComment.bind(this)}
         className="btn btn-info">Submit Comment</button>
       </div>

@@ -8,7 +8,7 @@ class Zones extends Component{
     this.state = {
       zone: {
         name: '',
-        zipCode: '',
+        zipCodes: [],
         comments: ''
       },
       list: []
@@ -45,9 +45,9 @@ class Zones extends Component{
   submitZone(){
     let newZone = Object.assign({}, this.state.zone)
     // need to process this a bit so it matches the mongoose schema
-    newZone['zipCodes'] = newZone.zipCode.split(',')
+    newZone['zipCodes'] = newZone.zipCodes.split(',')
     let updatedList = Object.assign([], this.state.list)
-
+    console.log(JSON.stringify(newZone))
     APImanager.post('api/zone', newZone, (err, response) => {
       if (err){
         alert('ERROR '+err)
@@ -74,14 +74,14 @@ class Zones extends Component{
         </ol>
         <input id='name' type='text' onChange={this.updateZone.bind(this)} placeholder='name'
           style = {universal.marginTop} className='form-control' name='name'/>
-        <input id='zipCode' type='text' onChange={this.updateZone.bind(this)} placeholder='zip codes'
+        <input id='zipCodes' type='text' onChange={this.updateZone.bind(this)} placeholder='zip codes'
           style = {universal.marginTop} className='form-control' name='zipCode'/>
-        <input id='numComments' type='text' onChange={this.updateZone.bind(this)} placeholder='comments'
+        <input id='comments' type='text' onChange={this.updateZone.bind(this)} placeholder='comments'
           style = {universal.marginTop} className='form-control' name='numComments'/>
         <button onClick={this.submitZone.bind(this)} style={universal.marginTop} className='btn btn-danger'>Submit Zone</button>
-          </div>
-          )
-          }
-          }
+      </div>
+    )
+  }
+}
 
 export default Zones

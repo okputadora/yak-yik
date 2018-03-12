@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import Zones from './components/Zones'
+import Home from './components/layout/Home'
+
 class App extends Component{
   render(){
     return(
-      <Zones />
+      <div>
+        <Home />
+      </div>
     )
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Comment from '../presentation/Comment'
+import { Comment, CreateComment } from '../presentation'
 import styles from './styles'
 import { APImanager } from '../../utils'
 class Comments extends Component{
@@ -29,45 +29,25 @@ class Comments extends Component{
         list: updatedList
       })
     })
-
-
   }
 
-  submitComment(){
+  submitComment(comment){
+    console.log('submitting from container: '+JSON.stringify(comment))
     let updatedList = Object.assign([], this.state.list)
-    let newComment = Object.assign({}, this.state.comment)
-    APImanager.post('api/comment', newComment, (err, response) => {
+
+    APImanager.post('api/comment', comment, (err, response) => {
       if (err){
         alert('ERROR '+err)
         return
       }
       console.log("COmment CREATEDS "+JSON.stringify(response))
-      updatedList.push(newComment)
+      updatedList.push(comment)
       this.setState({
         list: updatedList
       })
     })
+  }
 
-  }
-  updateBody(event){
-    console.log('updating '+event.target.value)
-    let updatedComment = Object.assign({}, this.state.comment)
-    updatedComment['body'] = event.target.value
-    this.setState({
-      comment: updatedComment
-    })
-  }
-  updateUsername(event){
-    console.log('updating '+event.target.value)
-    // don't mutate state
-    // WRONGGGGG this.state.comment['username'] = event.target.value
-    // copy it instead
-    let updatedComment = Object.assign({}, this.state.comment)
-    updatedComment['username'] = event.target.value
-    this.setState({
-      comment: updatedComment
-    })
-  }
   render(){
     const universal = styles.universal
     const listItems = this.state.list.map((comment, i) => {
@@ -79,12 +59,7 @@ class Comments extends Component{
         <ol>
           {listItems}
         </ol>
-        <input style={universal.marginTop} onChange={this.updateBody.bind(this)}
-        className="form-control" type="text" name="comment" placeholder="comment"/>
-        <input style={universal.marginTop} onChange={this.updateUsername.bind(this)}
-        className="form-control" type="text" name="username" placeholder="username"/>
-        <button style={universal.marginTop} onClick={this.submitComment.bind(this)}
-        className="btn btn-info">Submit Comment</button>
+        <CreateComment onCreate={this.submitComment.bind(this)}/>
       </div>
     )
   }

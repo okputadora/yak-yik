@@ -3,7 +3,7 @@ import styles from '../containers/styles.js'
 
 class Zone extends Component{
   selectZone(event){
-    event.PreventDefault()
+    event.preventDefault()
     // console.log(event.target.id)
     this.props.select(this.props.index)
   }

@@ -34,7 +34,12 @@ class Zones extends Component{
 
 
   }
-
+  selectZone(index){
+    console.log("Function working "+index)
+    this.setState({
+      selected: index
+    })
+  }
 
   submitZone(zone){
     let updatedList = Object.assign([], this.state.list)
@@ -55,7 +60,7 @@ class Zones extends Component{
     const universal = styles.universal
     const listItems = this.state.list.map((zone, i) => {
       let selected = (i==this.state.selected)
-      return (<Zone key={i} isSelected={selected} currentZone={zone}/>)
+      return (<Zone index={i} isSelected={selected} select={this.selectZone.bind(this)} currentZone={zone}/>)
     })
     return(
       <div>

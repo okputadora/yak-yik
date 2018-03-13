@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Zone, CreateZone } from '../presentation'
 import styles from './styles'
 import { APImanager } from '../../utils'
+import store from '../../stores/store'
+import actions from '../../actions/actions'
 class Zones extends Component{
   constructor(){
     super()
@@ -27,9 +29,12 @@ class Zones extends Component{
       results.forEach((zone) => {
         updatedList.push(zone)
       })
-      this.setState({
-        list: updatedList
-      })
+      // now we update that state by dispatching an action to the redux store
+      // THIS LINE IS GIVING AN ERROR AS OF NOW
+      store.currentStore().dispatch(actions.zonesReceived(results))
+      // this.setState({
+      //   list: updatedList
+      // })
     })
 
 

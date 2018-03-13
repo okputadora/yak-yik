@@ -1,8 +1,7 @@
 // this collects the reducers and is pretty much boiler plate
-
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import  zone  from '../reducers/zone'
+import zoneReducer from '../reducers/zoneReducer'
 
 var store;
 
@@ -10,13 +9,17 @@ export default {
 
   configureStore: (initial) => {
     const reducers = combineReducers({
-      zone: zone
+      zone: zoneReducer
     })
 
     store = createStore(
-      reducer,
+      reducers,
       applyMiddleware(thunk)
     )
+    return store
+  },
+
+  currentStore: () => {
     return store
   }
 }

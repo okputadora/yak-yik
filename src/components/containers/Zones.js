@@ -11,6 +11,7 @@ class Zones extends Component{
         zipCodes: [],
         comments: ''
       },
+      selected: 0,
       list: []
     }
   }
@@ -53,7 +54,8 @@ class Zones extends Component{
   render(){
     const universal = styles.universal
     const listItems = this.state.list.map((zone, i) => {
-      return (<Zone id={i} currentZone={zone}/>)
+      let selected = (i==this.state.selected)
+      return (<Zone key={i} isSelected={selected} currentZone={zone}/>)
     })
     return(
       <div>
